@@ -1,16 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Data.Entity;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using static System.Net.WebRequestMethods;
-using System.Globalization;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace lunchsystem
 {
@@ -18,7 +10,7 @@ namespace lunchsystem
     {
         MylunchEntities1 db = new MylunchEntities1();//lunch db
         lunchtable lunchtable = new lunchtable();//lunch
-        
+
         public Form1()
         {
             InitializeComponent();
@@ -33,7 +25,7 @@ namespace lunchsystem
             dateTimePicker1.CustomFormat = "yyyy/MM/dd";
 
             //更改成民國
-            
+
 
 
             comboBox1.Items.Add(new ComboBoxItem("1", "姓名"));
@@ -46,7 +38,7 @@ namespace lunchsystem
             Clear();
             LoadData();
         }
-        
+
 
         public void LoadData()//load data
         {
@@ -68,7 +60,7 @@ namespace lunchsystem
             else
             {
                 txt_lunch = valueoflunch();
-               
+
                 lunchtable.name = txt_name.Text.Trim();
                 lunchtable.lunch = txt_lunch.Trim();
                 lunchtable.date = Convert.ToDateTime(_lunchtime);
@@ -77,9 +69,9 @@ namespace lunchsystem
                     if (lunchtable.id == 0)
                     {
                         db.lunchtables.Add(lunchtable);
-                        
+
                     }
-                   
+
                     db.SaveChanges();
                 }
                 Clear();
@@ -91,9 +83,9 @@ namespace lunchsystem
         private void btnread_Click(object sender, EventArgs e) //查詢
         {
             string txt_lunch = null;
-            string value= ComboBoxUtil.GetItem(comboBox1).Value;
+            string value = ComboBoxUtil.GetItem(comboBox1).Value;
             lunchtable.date = Convert.ToDateTime(_lunchtime);
-            
+
 
             txt_lunch = valueoflunch();
 
@@ -101,25 +93,25 @@ namespace lunchsystem
             {
                 dataGridView1.DataSource = db.lunchtables.Where(x => x.name.Contains(txt_name.Text)).ToList();
             }
-            else if (value=="2")
+            else if (value == "2")
             {
-               dataGridView1.DataSource = db.lunchtables.Where(x => x.lunch.Contains(txt_lunch)).ToList();
+                dataGridView1.DataSource = db.lunchtables.Where(x => x.lunch.Contains(txt_lunch)).ToList();
             }
             else if (value == "3")
             {
-                
-                dataGridView1.DataSource = db.lunchtables.Where(x => x.date ==lunchtable.date).ToList();
+
+                dataGridView1.DataSource = db.lunchtables.Where(x => x.date == lunchtable.date).ToList();
             }
         }
 
         void Clear()//清空text的資料值
         {
             txt_name.Text = "";
-               
+
             lunchtable.id = 0;
         }
 
-        private void btn_update_Click(object sender , EventArgs e)//更新
+        private void btn_update_Click(object sender, EventArgs e)//更新
         {
             string txt_lunch = null;
             txt_lunch = valueoflunch();
@@ -143,7 +135,7 @@ namespace lunchsystem
         private void btndelete_Click(object sender, EventArgs e)
         {
             using (MylunchEntities1 db = new MylunchEntities1())
-            { 
+            {
                 var entry = db.Entry(lunchtable);
                 if (entry.State == EntityState.Detached)
                 {
@@ -166,7 +158,7 @@ namespace lunchsystem
                 {
                     lunchtable = db.lunchtables.Where(x => x.id == lunchtable.id).FirstOrDefault();
                     txt_name.Text = lunchtable.name;
-                    
+
                     //txt_date.Text = lunchtable.date;
                 }
             }
@@ -200,11 +192,5 @@ namespace lunchsystem
             // DateTime.TWDate()
             // 擴充方法 Extension method
         }
-
-
-        
-
-
-
     }
 }
