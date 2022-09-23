@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Data.Entity;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Net.WebRequestMethods;
+using System.Globalization;
 
 namespace lunchsystem
 {
@@ -22,7 +23,7 @@ namespace lunchsystem
         {
             InitializeComponent();
         }
-        private string lunchtime = "";
+        private string _lunchtime = "";
 
 
         private void Form1_Load(object sender, EventArgs e)
@@ -30,7 +31,10 @@ namespace lunchsystem
             // TODO: 這行程式碼會將資料載入 'mylunchDataSet1.lunchtable' 資料表。您可以視需要進行移動或移除。
             dateTimePicker1.Format = DateTimePickerFormat.Custom;
             dateTimePicker1.CustomFormat = "yyyy/MM/dd";
+
+            //更改成民國
             
+
 
             comboBox1.Items.Add(new ComboBoxItem("1", "姓名"));
             comboBox1.Items.Add(new ComboBoxItem("2", "午餐"));
@@ -67,7 +71,7 @@ namespace lunchsystem
                
                 lunchtable.name = txt_name.Text.Trim();
                 lunchtable.lunch = txt_lunch.Trim();
-                lunchtable.date = Convert.ToDateTime(lunchtime);
+                lunchtable.date = Convert.ToDateTime(_lunchtime);
                 using (MylunchEntities1 db = new MylunchEntities1())
                 {
                     if (lunchtable.id == 0)
@@ -88,7 +92,7 @@ namespace lunchsystem
         {
             string txt_lunch = null;
             string value= ComboBoxUtil.GetItem(comboBox1).Value;
-            lunchtable.date = Convert.ToDateTime(lunchtime);
+            lunchtable.date = Convert.ToDateTime(_lunchtime);
             
 
             txt_lunch = valueoflunch();
@@ -121,7 +125,7 @@ namespace lunchsystem
             txt_lunch = valueoflunch();
             lunchtable.name = txt_name.Text.Trim();
             lunchtable.lunch = txt_lunch.Trim();
-            lunchtable.date = Convert.ToDateTime(lunchtime);
+            lunchtable.date = Convert.ToDateTime(_lunchtime);
             //lunchtable.date = txt_date.Text.Trim();
             using (MylunchEntities1 db = new MylunchEntities1())
             {
@@ -191,10 +195,15 @@ namespace lunchsystem
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
-            lunchtime = dateTimePicker1.Text;
-            
+            _lunchtime = dateTimePicker1.Text;
+            txt_showdate.Text = dateTimePicker1?.Value.TWDate();
+            // DateTime.TWDate()
+            // 擴充方法 Extension method
         }
+
+
         
+
 
 
     }

@@ -52,7 +52,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.comboBox_lunch = new System.Windows.Forms.ComboBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.txt_date = new System.Windows.Forms.TextBox();
+            this.txt_showdate = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.lunchtableBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mylunchDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -250,20 +250,19 @@
             this.dateTimePicker1.TabIndex = 95;
             this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
-            // txt_date
+            // txt_showdate
             // 
-            this.txt_date.Location = new System.Drawing.Point(330, 206);
-            this.txt_date.Name = "txt_date";
-            this.txt_date.Size = new System.Drawing.Size(100, 22);
-            this.txt_date.TabIndex = 96;
-            this.txt_date.Visible = false;
+            this.txt_showdate.Location = new System.Drawing.Point(320, 206);
+            this.txt_showdate.Name = "txt_showdate";
+            this.txt_showdate.Size = new System.Drawing.Size(100, 22);
+            this.txt_showdate.TabIndex = 96;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(428, 499);
-            this.Controls.Add(this.txt_date);
+            this.Controls.Add(this.txt_showdate);
             this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.comboBox_lunch);
             this.Controls.Add(this.label2);
@@ -315,7 +314,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox comboBox_lunch;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.TextBox txt_date;
+        private System.Windows.Forms.TextBox txt_showdate;
     }
 }
 
