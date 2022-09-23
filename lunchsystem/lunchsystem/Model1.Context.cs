@@ -13,10 +13,10 @@ namespace lunchsystem
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class MylunchEntities : DbContext
+    public partial class MylunchEntities1 : DbContext
     {
-        public MylunchEntities()
-            : base("name=MylunchEntities")
+        public MylunchEntities1()
+            : base("name=MylunchEntities1")
         {
         }
     

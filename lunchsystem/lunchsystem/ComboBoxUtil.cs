@@ -19,5 +19,15 @@ namespace lunchsystem
             }
             return item;
         }
+        //取得索引下拉項目
+        public static ComboBoxItem GetItem(ComboBox cbo, int index)
+        {
+            ComboBoxItem item = null;
+            if (index > -1)
+            {
+                item = cbo.Items[index] as ComboBoxItem;
+            }
+            return item;
+        }
     }
 }

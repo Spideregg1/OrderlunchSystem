@@ -17,5 +17,7 @@ namespace lunchsystem
         public int id { get; set; }
         public string name { get; set; }
         public string lunch { get; set; }
+        public Nullable<System.DateTime> date { get; set; }
+        
     }
 }

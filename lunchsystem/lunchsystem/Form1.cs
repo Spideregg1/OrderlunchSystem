@@ -9,33 +9,45 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.Entity;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static System.Net.WebRequestMethods;
 
 namespace lunchsystem
 {
     public partial class Form1 : Form
     {
-        MylunchEntities db = new MylunchEntities();//lunch db
+        MylunchEntities1 db = new MylunchEntities1();//lunch db
         lunchtable lunchtable = new lunchtable();//lunch
         
         public Form1()
         {
             InitializeComponent();
         }
-       
+        private string lunchtime = "";
+
+
         private void Form1_Load(object sender, EventArgs e)
         {
             // TODO: 這行程式碼會將資料載入 'mylunchDataSet1.lunchtable' 資料表。您可以視需要進行移動或移除。
-            this.lunchtableTableAdapter1.Fill(this.mylunchDataSet1.lunchtable);
+            dateTimePicker1.Format = DateTimePickerFormat.Custom;
+            dateTimePicker1.CustomFormat = "yyyy/MM/dd";
+            
+
             comboBox1.Items.Add(new ComboBoxItem("1", "姓名"));
             comboBox1.Items.Add(new ComboBoxItem("2", "午餐"));
+            comboBox1.Items.Add(new ComboBoxItem("3", "日期"));
+
+            comboBox_lunch.Items.Add(new ComboBoxItem("1", "便當"));
+            comboBox_lunch.Items.Add(new ComboBoxItem("2", "素食"));
+            comboBox_lunch.Items.Add(new ComboBoxItem("3", "炒飯"));
             Clear();
             LoadData();
         }
+        
 
         public void LoadData()//load data
         {
             dataGridView1.AutoGenerateColumns = false;
-            using (MylunchEntities db = new MylunchEntities())
+            using (MylunchEntities1 db = new MylunchEntities1())
             {
                 dataGridView1.DataSource = db.lunchtables.ToList();
             }
@@ -43,24 +55,27 @@ namespace lunchsystem
 
         private void btn_insert_Click(object sender, EventArgs e) //新增
         {
-            if (String.IsNullOrEmpty(txt_name.Text) || (String.IsNullOrEmpty(txt_lunch.Text)))//防止空的
+            string value_lunch = ComboBoxUtil.GetItem(comboBox_lunch).Value;
+            string txt_lunch = null;
+            if (String.IsNullOrEmpty(txt_name.Text))//防止空的
             {
                 MessageBox.Show("請填入資料");
             }
             else
             {
+                txt_lunch = valueoflunch();
+               
                 lunchtable.name = txt_name.Text.Trim();
-                lunchtable.lunch = txt_lunch.Text.Trim();
-                using (MylunchEntities db = new MylunchEntities())
+                lunchtable.lunch = txt_lunch.Trim();
+                lunchtable.date = Convert.ToDateTime(lunchtime);
+                using (MylunchEntities1 db = new MylunchEntities1())
                 {
                     if (lunchtable.id == 0)
                     {
                         db.lunchtables.Add(lunchtable);
+                        
                     }
-                    /*else
-                    {
-                        db.Entry(lunchtable).State = EntityState.Modified;
-                    }*/
+                   
                     db.SaveChanges();
                 }
                 Clear();
@@ -71,28 +86,44 @@ namespace lunchsystem
 
         private void btnread_Click(object sender, EventArgs e) //查詢
         {
+            string txt_lunch = null;
             string value= ComboBoxUtil.GetItem(comboBox1).Value;
+            lunchtable.date = Convert.ToDateTime(lunchtime);
+            
+
+            txt_lunch = valueoflunch();
+
             if (value == "1")
             {
                 dataGridView1.DataSource = db.lunchtables.Where(x => x.name.Contains(txt_name.Text)).ToList();
             }
             else if (value=="2")
             {
-                dataGridView1.DataSource = db.lunchtables.Where(x => x.lunch.Contains(txt_lunch.Text)).ToList();
+               dataGridView1.DataSource = db.lunchtables.Where(x => x.lunch.Contains(txt_lunch)).ToList();
+            }
+            else if (value == "3")
+            {
+                
+                dataGridView1.DataSource = db.lunchtables.Where(x => x.date ==lunchtable.date).ToList();
             }
         }
 
-        void Clear()//清空txt的資料值
+        void Clear()//清空text的資料值
         {
-            txt_name.Text = txt_lunch.Text = "";
+            txt_name.Text = "";
+               
             lunchtable.id = 0;
         }
 
         private void btn_update_Click(object sender , EventArgs e)//更新
         {
+            string txt_lunch = null;
+            txt_lunch = valueoflunch();
             lunchtable.name = txt_name.Text.Trim();
-            lunchtable.lunch = txt_lunch.Text.Trim();
-            using (MylunchEntities db = new MylunchEntities())
+            lunchtable.lunch = txt_lunch.Trim();
+            lunchtable.date = Convert.ToDateTime(lunchtime);
+            //lunchtable.date = txt_date.Text.Trim();
+            using (MylunchEntities1 db = new MylunchEntities1())
             {
                 if (lunchtable.id != 0)
                 {
@@ -107,7 +138,7 @@ namespace lunchsystem
 
         private void btndelete_Click(object sender, EventArgs e)
         {
-            using (MylunchEntities db = new MylunchEntities())
+            using (MylunchEntities1 db = new MylunchEntities1())
             { 
                 var entry = db.Entry(lunchtable);
                 if (entry.State == EntityState.Detached)
@@ -127,15 +158,44 @@ namespace lunchsystem
             if (dataGridView1.CurrentRow.Index != -1)
             {
                 lunchtable.id = Convert.ToInt32(dataGridView1.CurrentRow.Cells["id"].Value);
-                using (MylunchEntities db = new MylunchEntities())
+                using (MylunchEntities1 db = new MylunchEntities1())
                 {
                     lunchtable = db.lunchtables.Where(x => x.id == lunchtable.id).FirstOrDefault();
                     txt_name.Text = lunchtable.name;
-                    txt_lunch.Text = lunchtable.lunch;
+                    
+                    //txt_date.Text = lunchtable.date;
                 }
             }
         }
 
-       
+        private string valueoflunch()//將午餐選單判斷是寫成Function
+        {
+            string txt_lunch = null;
+            string value_lunch = ComboBoxUtil.GetItem(comboBox_lunch).Value;
+            //加入午餐選單判斷式
+            if (value_lunch == "1")
+            {
+                txt_lunch = ComboBoxUtil.GetItem(comboBox_lunch, 0).Text;
+
+            }
+            else if (value_lunch == "2")
+            {
+                txt_lunch = ComboBoxUtil.GetItem(comboBox_lunch, 1).Text;
+            }
+            else if (value_lunch == "3")
+            {
+                txt_lunch = ComboBoxUtil.GetItem(comboBox_lunch, 2).Text;
+            }
+            return txt_lunch;
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            lunchtime = dateTimePicker1.Text;
+            
+        }
+        
+
+
     }
 }
