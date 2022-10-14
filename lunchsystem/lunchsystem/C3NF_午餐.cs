@@ -12,13 +12,13 @@ namespace lunchsystem
     using System;
     using System.Collections.Generic;
     
-    public partial class lunchtable
+    public partial class C3NF_午餐
     {
-        public int id { get; set; }
-        public string name { get; set; }
-        public string lunch { get; set; }
-        public Nullable<System.DateTime> date { get; set; }
-        public Nullable<int> employee_id0 { get; set; }
-        public Nullable<int> lunch_id0 { get; set; }
+        public int detail_id { get; set; }
+        public Nullable<int> master_id { get; set; }
+        public Nullable<int> lunch_id { get; set; }
+    
+        public virtual C2NF_訂單細表 C2NF_訂單細表 { get; set; }
+        public virtual C3NF_午餐種類 C3NF_午餐種類 { get; set; }
     }
 }

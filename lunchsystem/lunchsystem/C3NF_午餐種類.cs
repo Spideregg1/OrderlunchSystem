@@ -12,13 +12,18 @@ namespace lunchsystem
     using System;
     using System.Collections.Generic;
     
-    public partial class lunchtable
+    public partial class C3NF_午餐種類
     {
-        public int id { get; set; }
-        public string name { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public C3NF_午餐種類()
+        {
+            this.C3NF_午餐 = new HashSet<C3NF_午餐>();
+        }
+    
+        public int lunch_id { get; set; }
         public string lunch { get; set; }
-        public Nullable<System.DateTime> date { get; set; }
-        public Nullable<int> employee_id0 { get; set; }
-        public Nullable<int> lunch_id0 { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<C3NF_午餐> C3NF_午餐 { get; set; }
     }
 }

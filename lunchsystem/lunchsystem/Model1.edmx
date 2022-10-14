@@ -4,7 +4,37 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MylunchModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="MylunchModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="2NF_訂單細表">
+          <Key>
+            <PropertyRef Name="master_id" />
+          </Key>
+          <Property Name="master_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="employee_id" Type="int" />
+          <Property Name="date" Type="date" />
+        </EntityType>
+        <EntityType Name="2NF_員工清單">
+          <Key>
+            <PropertyRef Name="employee_id" />
+          </Key>
+          <Property Name="employee_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="employee_name" Type="char" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="3NF_午餐">
+          <Key>
+            <PropertyRef Name="detail_id" />
+          </Key>
+          <Property Name="detail_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="master_id" Type="int" />
+          <Property Name="lunch_id" Type="int" />
+        </EntityType>
+        <EntityType Name="3NF_午餐種類">
+          <Key>
+            <PropertyRef Name="lunch_id" />
+          </Key>
+          <Property Name="lunch_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="lunch" Type="nchar" MaxLength="10" />
+        </EntityType>
         <EntityType Name="lunchtable">
           <Key>
             <PropertyRef Name="id" />
@@ -13,15 +43,87 @@
           <Property Name="name" Type="nchar" MaxLength="10" />
           <Property Name="lunch" Type="nchar" MaxLength="10" />
           <Property Name="date" Type="date" />
+          <Property Name="employee_id0" Type="int" />
+          <Property Name="lunch_id0" Type="int" />
         </EntityType>
+        <Association Name="FK_2NF_訂單細表_2NF_員工清單">
+          <End Role="2NF_員工清單" Type="Self.2NF_員工清單" Multiplicity="0..1" />
+          <End Role="2NF_訂單細表" Type="Self.2NF_訂單細表" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="2NF_員工清單">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="2NF_訂單細表">
+              <PropertyRef Name="employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_3NF_午餐_2NF_訂單細表">
+          <End Role="2NF_訂單細表" Type="Self.2NF_訂單細表" Multiplicity="0..1" />
+          <End Role="3NF_午餐" Type="Self.3NF_午餐" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="2NF_訂單細表">
+              <PropertyRef Name="master_id" />
+            </Principal>
+            <Dependent Role="3NF_午餐">
+              <PropertyRef Name="master_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_3NF_午餐_3NF_午餐種類">
+          <End Role="3NF_午餐種類" Type="Self.3NF_午餐種類" Multiplicity="0..1" />
+          <End Role="3NF_午餐" Type="Self.3NF_午餐" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="3NF_午餐種類">
+              <PropertyRef Name="lunch_id" />
+            </Principal>
+            <Dependent Role="3NF_午餐">
+              <PropertyRef Name="lunch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="MylunchModelStoreContainer">
+          <EntitySet Name="2NF_訂單細表" EntityType="Self.2NF_訂單細表" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="2NF_員工清單" EntityType="Self.2NF_員工清單" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="3NF_午餐" EntityType="Self.3NF_午餐" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="3NF_午餐種類" EntityType="Self.3NF_午餐種類" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="lunchtable" EntityType="Self.lunchtable" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_2NF_訂單細表_2NF_員工清單" Association="Self.FK_2NF_訂單細表_2NF_員工清單">
+            <End Role="2NF_員工清單" EntitySet="2NF_員工清單" />
+            <End Role="2NF_訂單細表" EntitySet="2NF_訂單細表" />
+          </AssociationSet>
+          <AssociationSet Name="FK_3NF_午餐_2NF_訂單細表" Association="Self.FK_3NF_午餐_2NF_訂單細表">
+            <End Role="2NF_訂單細表" EntitySet="2NF_訂單細表" />
+            <End Role="3NF_午餐" EntitySet="3NF_午餐" />
+          </AssociationSet>
+          <AssociationSet Name="FK_3NF_午餐_3NF_午餐種類" Association="Self.FK_3NF_午餐_3NF_午餐種類">
+            <End Role="3NF_午餐種類" EntitySet="3NF_午餐種類" />
+            <End Role="3NF_午餐" EntitySet="3NF_午餐" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MylunchModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="MylunchEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="lunchtables" EntityType="MylunchModel.lunchtable" />
+          <EntitySet Name="C2NF_訂單細表" EntityType="MylunchModel.C2NF_訂單細表" />
+          <EntitySet Name="C2NF_員工清單" EntityType="MylunchModel.C2NF_員工清單" />
+          <EntitySet Name="C3NF_午餐" EntityType="MylunchModel.C3NF_午餐" />
+          <EntitySet Name="C3NF_午餐種類" EntityType="MylunchModel.C3NF_午餐種類" />
+          <AssociationSet Name="FK_2NF_訂單細表_2NF_員工清單" Association="MylunchModel.FK_2NF_訂單細表_2NF_員工清單">
+            <End Role="C2NF_員工清單" EntitySet="C2NF_員工清單" />
+            <End Role="C2NF_訂單細表" EntitySet="C2NF_訂單細表" />
+          </AssociationSet>
+          <AssociationSet Name="FK_3NF_午餐_2NF_訂單細表" Association="MylunchModel.FK_3NF_午餐_2NF_訂單細表">
+            <End Role="C2NF_訂單細表" EntitySet="C2NF_訂單細表" />
+            <End Role="C3NF_午餐" EntitySet="C3NF_午餐" />
+          </AssociationSet>
+          <AssociationSet Name="FK_3NF_午餐_3NF_午餐種類" Association="MylunchModel.FK_3NF_午餐_3NF_午餐種類">
+            <End Role="C3NF_午餐種類" EntitySet="C3NF_午餐種類" />
+            <End Role="C3NF_午餐" EntitySet="C3NF_午餐" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="lunchtable">
           <Key>
             <PropertyRef Name="id" />
@@ -30,11 +132,82 @@
           <Property Name="name" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="lunch" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="date" Type="DateTime" Precision="0" />
+          <Property Name="employee_id0" Type="Int32" />
+          <Property Name="lunch_id0" Type="Int32" />
         </EntityType>
-        <EntityContainer Name="MylunchEntities1" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="lunchtables" EntityType="Self.lunchtable" />
-        </EntityContainer>
-      </Schema>
+        <EntityType Name="C2NF_訂單細表">
+          <Key>
+            <PropertyRef Name="master_id" />
+          </Key>
+          <Property Name="master_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="employee_id" Type="Int32" />
+          <Property Name="date" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="C2NF_員工清單" Relationship="MylunchModel.FK_2NF_訂單細表_2NF_員工清單" FromRole="C2NF_訂單細表" ToRole="C2NF_員工清單" />
+          <NavigationProperty Name="C3NF_午餐" Relationship="MylunchModel.FK_3NF_午餐_2NF_訂單細表" FromRole="C2NF_訂單細表" ToRole="C3NF_午餐" />
+        </EntityType>
+        <EntityType Name="C2NF_員工清單">
+          <Key>
+            <PropertyRef Name="employee_id" />
+          </Key>
+          <Property Name="employee_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="employee_name" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="C2NF_訂單細表" Relationship="MylunchModel.FK_2NF_訂單細表_2NF_員工清單" FromRole="C2NF_員工清單" ToRole="C2NF_訂單細表" />
+        </EntityType>
+        <EntityType Name="C3NF_午餐">
+          <Key>
+            <PropertyRef Name="detail_id" />
+          </Key>
+          <Property Name="detail_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="master_id" Type="Int32" />
+          <Property Name="lunch_id" Type="Int32" />
+          <NavigationProperty Name="C2NF_訂單細表" Relationship="MylunchModel.FK_3NF_午餐_2NF_訂單細表" FromRole="C3NF_午餐" ToRole="C2NF_訂單細表" />
+          <NavigationProperty Name="C3NF_午餐種類" Relationship="MylunchModel.FK_3NF_午餐_3NF_午餐種類" FromRole="C3NF_午餐" ToRole="C3NF_午餐種類" />
+        </EntityType>
+        <EntityType Name="C3NF_午餐種類">
+          <Key>
+            <PropertyRef Name="lunch_id" />
+          </Key>
+          <Property Name="lunch_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="lunch" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="C3NF_午餐" Relationship="MylunchModel.FK_3NF_午餐_3NF_午餐種類" FromRole="C3NF_午餐種類" ToRole="C3NF_午餐" />
+        </EntityType>
+        <Association Name="FK_2NF_訂單細表_2NF_員工清單">
+          <End Type="MylunchModel.C2NF_員工清單" Role="C2NF_員工清單" Multiplicity="0..1" />
+          <End Type="MylunchModel.C2NF_訂單細表" Role="C2NF_訂單細表" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C2NF_員工清單">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="C2NF_訂單細表">
+              <PropertyRef Name="employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_3NF_午餐_2NF_訂單細表">
+          <End Type="MylunchModel.C2NF_訂單細表" Role="C2NF_訂單細表" Multiplicity="0..1" />
+          <End Type="MylunchModel.C3NF_午餐" Role="C3NF_午餐" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C2NF_訂單細表">
+              <PropertyRef Name="master_id" />
+            </Principal>
+            <Dependent Role="C3NF_午餐">
+              <PropertyRef Name="master_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_3NF_午餐_3NF_午餐種類">
+          <End Type="MylunchModel.C3NF_午餐種類" Role="C3NF_午餐種類" Multiplicity="0..1" />
+          <End Type="MylunchModel.C3NF_午餐" Role="C3NF_午餐" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C3NF_午餐種類">
+              <PropertyRef Name="lunch_id" />
+            </Principal>
+            <Dependent Role="C3NF_午餐">
+              <PropertyRef Name="lunch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -43,14 +216,50 @@
           <EntitySetMapping Name="lunchtables">
             <EntityTypeMapping TypeName="MylunchModel.lunchtable">
               <MappingFragment StoreEntitySet="lunchtable">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="lunch" ColumnName="lunch" />
+                <ScalarProperty Name="lunch_id0" ColumnName="lunch_id0" />
+                <ScalarProperty Name="employee_id0" ColumnName="employee_id0" />
                 <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="lunch" ColumnName="lunch" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          <EntitySetMapping Name="C2NF_訂單細表">
+            <EntityTypeMapping TypeName="MylunchModel.C2NF_訂單細表">
+              <MappingFragment StoreEntitySet="2NF_訂單細表">
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+                <ScalarProperty Name="master_id" ColumnName="master_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C2NF_員工清單">
+            <EntityTypeMapping TypeName="MylunchModel.C2NF_員工清單">
+              <MappingFragment StoreEntitySet="2NF_員工清單">
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C3NF_午餐">
+            <EntityTypeMapping TypeName="MylunchModel.C3NF_午餐">
+              <MappingFragment StoreEntitySet="3NF_午餐">
+                <ScalarProperty Name="lunch_id" ColumnName="lunch_id" />
+                <ScalarProperty Name="master_id" ColumnName="master_id" />
+                <ScalarProperty Name="detail_id" ColumnName="detail_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C3NF_午餐種類">
+            <EntityTypeMapping TypeName="MylunchModel.C3NF_午餐種類">
+              <MappingFragment StoreEntitySet="3NF_午餐種類">
+                <ScalarProperty Name="lunch" ColumnName="lunch" />
+                <ScalarProperty Name="lunch_id" ColumnName="lunch_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>
