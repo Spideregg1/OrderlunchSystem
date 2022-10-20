@@ -8,35 +8,59 @@ namespace lunchsystem
 {
     public partial class main_form : Form
     {
+        // TODO 20221017：程式內滿滿的　new MylunchEntities1，統一一個使用 done!
         MylunchEntities1 db = new MylunchEntities1();//lunch db
         lunchtable lunchtable = new lunchtable();//lunch
         C2NF_訂單細表 form_head = new C2NF_訂單細表();//表頭
         C3NF_午餐 form_body = new C3NF_午餐();//表身
-        C2NF_員工清單 employee_item = new C2NF_員工清單();//員工清單
-        C3NF_午餐種類 lunch_item = new C3NF_午餐種類();//午餐種類
-        LunchViewModel lunchViewModel = new LunchViewModel();//LunchViewmodel
+        C3NF_午餐種類 lunch_item = new C3NF_午餐種類();
+
 
         public main_form()
         {
             InitializeComponent();
         }
-        private string _lunchtime = "";
 
+        public string id_value;
+
+        private string Id_value
+        {
+            set
+            {
+                id_value = value;
+            }
+        }
 
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // TODO: 這行程式碼會將資料載入 'mylunchDataSet1.lunchtable' 資料表。您可以視需要進行移動或移除。
+
             dateTimePicker1.Format = DateTimePickerFormat.Custom;
             dateTimePicker1.CustomFormat = "yyyy/MM/dd";
 
-            comboBox1.Items.Add(new ComboBoxItem("1", "姓名"));
-            comboBox1.Items.Add(new ComboBoxItem("2", "午餐"));
-            comboBox1.Items.Add(new ComboBoxItem("3", "日期"));
+            //comboBox1.Items.Add(new ComboBoxItem("1", "姓名"));
+            //comboBox1.Items.Add(new ComboBoxItem("2", "午餐"));
+            //comboBox1.Items.Add(new ComboBoxItem("3", "日期"));
 
-            comboBox_lunch.Items.Add(new ComboBoxItem("1", "便當"));
-            comboBox_lunch.Items.Add(new ComboBoxItem("2", "素食"));
-            comboBox_lunch.Items.Add(new ComboBoxItem("3", "炒飯"));
+
+            //將hardcore轉從資料庫抓取檔案
+
+            var lunch_list = from lunch_item in db.C3NF_午餐種類 select lunch_item;
+
+            var employee_list = from employee_name in db.C2NF_員工清單 select employee_name;
+
+            comboBox_lunch.DataSource = lunch_list.ToList();
+            comboBox_lunch.DisplayMember = "lunch";
+            comboBox_lunch.ValueMember = "lunch_id";
+
+            comboBox_name.DataSource = employee_list.ToArray();
+            comboBox_name.DisplayMember = "employee_name";
+            comboBox_name.ValueMember = "employee_id";
+
+
+            //comboBox_lunch.Items.Add(new ComboBoxItem("1", "便當"));
+            //comboBox_lunch.Items.Add(new ComboBoxItem("2", "素食"));
+            //comboBox_lunch.Items.Add(new ComboBoxItem("3", "炒飯"));
             Clear();
             LoadData();
         }
@@ -46,13 +70,11 @@ namespace lunchsystem
         {
             dataGridView1.AutoGenerateColumns = false;
 
-            // TODO ViewModel
-            // TODO Model、Entity => 相似
 
-            // Linq to Entity 或 Linq to SQL
 
 
 
+            // Linq to Entity 或 Linq to SQL
             // Lambda Express
             //var source = db.C2NF_訂單細表.Join(db.C2NF_員工清單,
             //    o => o.employee_id,
@@ -73,11 +95,7 @@ namespace lunchsystem
             //    }).ToList();
 
             // Linq 
-
-
-
             // Provider
-
             var query = from fh in db.C2NF_訂單細表
                         join ei in db.C2NF_員工清單 on fh.employee_id equals ei.employee_id
                         join fb in db.C3NF_午餐 on fh.master_id equals fb.master_id
@@ -88,123 +106,73 @@ namespace lunchsystem
                             master_id = fh.master_id,
                             employee_id = fh.employee_id,
                             employee_name = ei.employee_name,
+                            detail_id = fb.detail_id,
                             lunch_id = fb.lunch_id,
                             lunch = li.lunch,
                             date = fh.date
                         };
 
             var source = query.ToList();
-
-            //var demo = new List<C2NF_訂單細表>();
-            //demo.Add(new C2NF_訂單細表() { employee_id = 1, date = DateTime.Today });
-            //demo.Select((s, index) => new LunchViewModel() 
-            //{ 
-
-            //});
-
-            //source.Select(s => new LunchViewModel()
-            //{
-            //    employee_id = s.employee_id,
-            //    date = DateAdd7(DateTime.Today),
-            //    Employee_Name = "測試"
-            //}
-            //); ;
-
-            //DateTime DateAdd7(DateTime dt)
-            //{
-            //    return dt.AddDays(7);
-            //}
-
             dataGridView1.DataSource = source;
 
-            //using (MylunchEntities1 db = new MylunchEntities1())
-            //{
-            //    foreach (var item in query)
-            //    {
-            //        dataGridView1.DataSource = item.ToList();
-            //    }
-            //}
+
+
+
+
         }
 
         #region CRUD部分
         private void btn_insert_Click(object sender, EventArgs e) //新增
         {
+            Menu_form menu_Form = new Menu_form();
 
-            string value_lunch = ComboBoxUtil.GetItem(comboBox_lunch).Value;
-            string txt_lunch = null;
-            if (String.IsNullOrEmpty(txt_name.Text))//防止空的
+            menu_Form.Owner = this;
+
+            string str_lunchid = id_value;
+
+            int[] index_lunch = str_lunchid.Select(n => n - '0').ToArray();
+
+
+            for (int i = 0; i < index_lunch.Length; i++)
             {
-                MessageBox.Show("請填入資料");
+                form_head.employee_id = comboBox_name.SelectedIndex + 1;
+
+                form_body.master_id = form_head.master_id;
+
+                form_head.date = dateTimePicker1.Value;
+
+
+                form_body.lunch_id = index_lunch[i];
+
+                //form_body.lunch_id = comboBox_lunch.SelectedIndex + 1;
+                db.C2NF_訂單細表.Add(form_head);
+                db.C3NF_午餐.Add(form_body);
+                db.SaveChanges();
             }
-            else
-            {
-                txt_lunch = valueoflunch();
-                lunchViewModel.employee_name = txt_name.Text.Trim();
-                lunchViewModel.lunch = txt_lunch.Trim();
-                lunchViewModel.date = Convert.ToDateTime(_lunchtime);
 
-                lunchtable.name = txt_name.Text.Trim();
-                lunchtable.lunch = txt_lunch.Trim();
-                lunchtable.date = Convert.ToDateTime(_lunchtime);
-                form_head.date = Convert.ToDateTime(_lunchtime);
+            //db.C2NF_訂單細表.Add(form_head);
+            // db.C3NF_午餐.Add(form_body);
 
+            //db.SaveChanges();
+            Clear();
+            LoadData();
+            MessageBox.Show("新增成功！");
 
-                var query = from a in db.C2NF_員工清單 orderby a.employee_id select a; // 搜尋全部員工的清單
-                var lunch_query = from b in db.C3NF_午餐種類 orderby b.lunch_id select b;//搜尋全部午餐的種類
-
-
-                using (MylunchEntities1 db = new MylunchEntities1())
-                {
-                    if (lunchtable.id == 0)
-                    {
-                        db.lunchtables.Add(lunchtable);
-                    }
-                    if (form_head.master_id == 0)
-                    {
-                        foreach (var item in query)//走訪全部
-                        {
-
-                            if (txt_name.Text.Trim() == item.employee_name.Trim())//如果輸入的姓名與員工清單的姓名一樣
-                            {
-                                form_head.employee_id = item.employee_id;//訂單細表的employee_id就是員工清單的employee_id
-                                lunchViewModel.employee_id = item.employee_id;
-                            }
-                        }
-                        foreach (var item in lunch_query)
-                        {
-                            if (lunchtable.lunch == item.lunch.Trim())//如果輸入的午餐與午餐種類一樣
-                            {
-                                form_body.lunch_id = item.lunch_id;//id一致
-                                lunchViewModel.lunch_id = item.lunch_id;
-                            }
-                        }
-
-
-                        db.C3NF_午餐.Add(form_body);
-                        db.C2NF_訂單細表.Add(form_head);
-                    }
-
-
-                    db.SaveChanges();
-                }
-                Clear();
-                LoadData();
-                MessageBox.Show("新增成功！");
-            }
         }
 
         private void btnread_Click(object sender, EventArgs e) //查詢
         {
             string txt_lunch = null;
             string value = ComboBoxUtil.GetItem(comboBox1).Value;
-            lunchtable.date = Convert.ToDateTime(_lunchtime);
+            lunchtable.date = dateTimePicker1.Value;
 
 
-            txt_lunch = valueoflunch();
+
+            //txt_lunch = valueoflunch();
 
             if (value == "1")
             {
-                dataGridView1.DataSource = db.lunchtables.Where(x => x.name.Contains(txt_name.Text)).ToList();
+                //dataGridView1.DataSource = db.lunchtables.Where(x => x.name.Contains(txt_name.Text)).ToList();
             }
             else if (value == "2")
             {
@@ -219,93 +187,20 @@ namespace lunchsystem
 
         void Clear()//清空text的資料值
         {
-            txt_name.Text = "";
-
-            lunchtable.id = 0;
-
-            form_head.master_id = 0;
-
-            form_head.employee_id = 0;
-
-            form_body.detail_id = 0;
-
-            form_body.master_id = 0;
 
         }
 
         private void btn_update_Click(object sender, EventArgs e)//更新
         {
 
-            string txt_lunch = null;
-            txt_lunch = valueoflunch();
+            form_head.date = dateTimePicker1.Value;
+            form_head.employee_id = comboBox_name.SelectedIndex + 1;
+            form_body.master_id = form_head.master_id;
+            form_body.lunch_id = comboBox_lunch.SelectedIndex + 1;
 
-            var query = from a in db.C2NF_員工清單 orderby a.employee_id select a; // 搜尋全部員工的清單
-            var lunch_query = from b in db.C3NF_午餐種類 orderby b.lunch_id select b;//搜尋全部午餐的種類
-
-            //lunchtable.name = txt_name.Text.Trim();
-            //lunchtable.lunch = txt_lunch.Trim();
-            //lunchtable.date = Convert.ToDateTime(_lunchtime);
-
-            var entity = new C2NF_員工清單();
-
-            var head = new C2NF_訂單細表();
-
-            var body = new C3NF_午餐();
-
-
-
-
-            entity.employee_name = txt_name.Text;
-            head.date = Convert.ToDateTime(_lunchtime);
-
-
-            var lunch_entity = new C3NF_午餐種類();
-
-            lunch_entity.lunch = txt_lunch.Trim();
-
-
-
-
-            using (MylunchEntities1 db = new MylunchEntities1())
-            {
-                //if (lunchtable.id != 0)
-                //{
-                //    db.Entry(lunchtable).State = EntityState.Modified;
-                //}
-
-                if (form_head.master_id != 0)
-                {
-                    foreach (var item in query)//走訪全部
-                    {
-                        if (entity.employee_name.Trim() == item.employee_name.Trim())//如果輸入的姓名與員工清單的姓名一樣
-                        {
-                            head.employee_id = item.employee_id;//訂單細表的employee_id就是員工清單的employee_id
-                        }
-
-                    }
-
-                    foreach (var item in lunch_query)
-                    {
-                        if (lunch_entity.lunch.Trim() == item.lunch.Trim())//如果輸入的午餐與午餐種類一樣
-                        {
-                            lunch_entity.lunch_id = item.lunch_id;//id一致
-                        }
-                    }
-                    body.master_id = form_head.master_id;
-                    body.lunch_id = lunch_entity.lunch_id;
-                    body.detail_id = form_head.master_id;
-                    head.master_id = form_head.master_id;
-                    //db.C2NF_訂單細表.AddOrUpdate(head);
-                    db.Entry(head).State = EntityState.Modified;
-                    db.Entry(body).State = EntityState.Modified;
-                    // db.Entry(lunchViewModel).State = EntityState.Modified;
-                    // db.Entry(form_body).State = EntityState.Modified;
-
-                }
-
-                db.SaveChanges();
-            }
-
+            db.Entry(form_head).State = EntityState.Modified;
+            db.Entry(form_body).State = EntityState.Modified;
+            db.SaveChanges();
             Clear();
             LoadData();
             MessageBox.Show("更新成功！");
@@ -313,81 +208,127 @@ namespace lunchsystem
 
         private void btndelete_Click(object sender, EventArgs e)
         {
-            
-            var entry=db.Entry(form_head);
-            var entry2 = db.Entry(form_body);
-
-            if (entry.State == EntityState.Detached && entry2.State == EntityState.Detached)
-            {
-                db.C2NF_訂單細表.Attach(form_head);
-                db.C3NF_午餐.Attach(form_body);
-                 
-            }
             db.C2NF_訂單細表.Remove(form_head);
             db.C3NF_午餐.Remove(form_body);
 
             db.SaveChanges();
-                LoadData();
-                Clear();
-                MessageBox.Show("刪除成功");
+            LoadData();
+            Clear();
+            MessageBox.Show("刪除成功");
         }
-        
+
 
         private void dataGridView1_DoubleClick(object sender, EventArgs e)//點擊二下想改的地方
         {
 
-            if (dataGridView1.CurrentRow.Index != -1)
-            {
-                form_head.master_id = Convert.ToInt32(dataGridView1.CurrentRow.Cells["master_id"].Value);
-                form_body.lunch_id = Convert.ToInt32(dataGridView1.CurrentRow.Cells["lunch_id"].Value);
+            // TODO 20221017：請使用 Early Return，讓程式碼更方便閱讀
+            if (dataGridView1.CurrentRow.Index == -1)
+                return;
 
-                using (MylunchEntities1 db = new MylunchEntities1())
-                {
+            // TODO 20221017：避免 HardCode，Cells 內的 "master_id"、"lunch_id" 請改寫 done!
 
-                    form_head = db.C2NF_訂單細表.Where(x => x.master_id == form_head.master_id).FirstOrDefault();
-                    form_body = db.C3NF_午餐.Where(x => x.lunch_id == form_body.lunch_id).FirstOrDefault();
+            int Master_ID = Convert.ToInt32(dataGridView1.CurrentRow.Cells[datagrid_master_id.Index].Value);
+
+            int Detail_ID = Convert.ToInt32(dataGridView1.CurrentRow.Cells[datagrid_detail_id.Index].Value);
 
 
-                    txt_name.Text = form_head.C2NF_員工清單.employee_name;
 
-                    comboBox_lunch.Text = form_body.C3NF_午餐種類.lunch;
-                    dateTimePicker1.Value = (DateTime)form_head.date;
+            form_head = db.C2NF_訂單細表.Where(x => x.master_id == Master_ID).FirstOrDefault();
 
-                    //txt_date.Text = lunchtable.date;
-                }
-            }
+
+
+            form_body = db.C3NF_午餐.Where(x => x.detail_id == Detail_ID).FirstOrDefault();
+
+
+            comboBox_name.Text = form_head.C2NF_員工清單.employee_name;
+
+            comboBox_lunch.Text = form_body.C3NF_午餐種類.lunch;
+            // TODO 20221017：請說明 [C2NF_訂單細表.Date 欄位] 是允許 null，訂購日期是設計可以不填嗎？ done!
+            dateTimePicker1.Value = (DateTime)form_head.date;
+
+            //txt_date.Text = lunchtable.date;
         }
-        #endregion 
+        #endregion
 
-        private string valueoflunch()//將午餐選單判斷式寫成Function
-        {
-            string txt_lunch = null;
-            string value_lunch = ComboBoxUtil.GetItem(comboBox_lunch).Value;
-            //加入午餐選單判斷式
-            if (value_lunch == "1")
-            {
-                txt_lunch = ComboBoxUtil.GetItem(comboBox_lunch, 0).Text;
 
-            }
-            else if (value_lunch == "2")
-            {
-                txt_lunch = ComboBoxUtil.GetItem(comboBox_lunch, 1).Text;
-            }
-            else if (value_lunch == "3")
-            {
-                txt_lunch = ComboBoxUtil.GetItem(comboBox_lunch, 2).Text;
-            }
-            return txt_lunch;
-        }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
-            _lunchtime = dateTimePicker1.Text;
-            txt_showdate.Text = dateTimePicker1?.Value.TWDate();
+            // TODO 20221017：datetimepicker 控件有 value 屬性可以直接抓到 datetime，
+            //  不知道為什麼要透過 _lunchtime field 來暫存 datetimepicker.Text，
+            //  實際應用還要透過 Convert.ToDateTime(_lunchtime); 來轉換，
+            //  另外要這樣幹，也要透過一個 method 來統一存取才是 done!
+
+            txt_showdate.Text = dateTimePicker1?.Value.toTWDate();
             // DateTime.TWDate()
             // 擴充方法 Extension method
         }
 
-       
+        private void button1_Click(object sender, EventArgs e)// test function
+        {
+            //string str_lunchid = index_lunchid.Text;
+            //int[] index_lunch = str_lunchid.Select(n => n - '0').ToArray();
+            //for (int i = 0; i < index_lunch.Length; i++)
+            //{
+            //    MessageBox.Show(index_lunch[i].ToString());
+            //}
+            Menu_form menu_Form = new Menu_form();
+            menu_Form.Owner = this;
+
+            string str_lunchid = id_value;
+            MessageBox.Show(str_lunchid);
+
+        }
+
+        #region 同視窗 datagridview
+        //private void btn_add_lunch_Click(object sender, EventArgs e)
+        //{
+
+        //    int lunch_id = 0;
+        //    string lunch_name = "";
+        //    string msg = "";
+        //    string msg_id = "";
+
+        //    int row = dataGridView_lunchlist.RowCount - 1;
+
+
+
+        //    for (int i = 0; i <= row; i++)
+        //    {
+        //        if (Convert.ToBoolean(dataGridView_lunchlist.Rows[i].Cells[pick.Index].Value) == true)
+        //        {
+
+        //            lunch_id = (int)dataGridView_lunchlist.Rows[i].Cells[pick_lunch_id.Index].Value;
+
+        //            lunch_name = dataGridView_lunchlist.Rows[i].Cells[lunch_list.Index].Value.ToString();
+        //            msg += lunch_name;
+        //            msg_id += lunch_id.ToString();
+        //        }
+
+
+        //    }
+
+        //    txt_lunch.Text = msg;
+        //    index_lunchid.Text = msg_id;
+
+
+
+
+
+        //}
+        #endregion
+
+        private void btn_lunch_Click(object sender, EventArgs e)
+        {
+
+            Menu_form menu_Form = new Menu_form();
+            menu_Form.Show(this);
+        }
+
+
+
+
+
+
     }
 }

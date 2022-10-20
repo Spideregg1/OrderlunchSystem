@@ -22,7 +22,7 @@ namespace lunchsystem
     
         public int master_id { get; set; }
         public Nullable<int> employee_id { get; set; }
-        public Nullable<System.DateTime> date { get; set; }
+        public System.DateTime date { get; set; }
     
         public virtual C2NF_員工清單 C2NF_員工清單 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

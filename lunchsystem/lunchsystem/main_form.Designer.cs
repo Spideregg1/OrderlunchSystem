@@ -33,7 +33,6 @@
             this.btndelete = new System.Windows.Forms.Button();
             this.btnread = new System.Windows.Forms.Button();
             this.btn_insert = new System.Windows.Forms.Button();
-            this.txt_name = new System.Windows.Forms.TextBox();
             this.lunch = new System.Windows.Forms.Label();
             this.txtname = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -41,10 +40,11 @@
             this.mylunchDataSet = new lunchsystem.MylunchDataSet();
             this.lunchtableTableAdapter = new lunchsystem.MylunchDataSetTableAdapters.lunchtableTableAdapter();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.master_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.employee_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.datagrid_master_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.datagrid_detail_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.datagrid_employee_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.employee_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lunch_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.datagrid_lunch_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mylunch = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mylunchDataSet1 = new lunchsystem.MylunchDataSet1();
@@ -55,6 +55,12 @@
             this.comboBox_lunch = new System.Windows.Forms.ComboBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.txt_showdate = new System.Windows.Forms.TextBox();
+            this.index_employeeid = new System.Windows.Forms.TextBox();
+            this.index_lunchid = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.comboBox_name = new System.Windows.Forms.ComboBox();
+            this.btn_lunch = new System.Windows.Forms.Button();
+            this.txt_lunch = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.lunchtableBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mylunchDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -87,7 +93,7 @@
             // btnread
             // 
             this.btnread.Font = new System.Drawing.Font("微軟正黑體", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btnread.Location = new System.Drawing.Point(288, 153);
+            this.btnread.Location = new System.Drawing.Point(487, 112);
             this.btnread.Name = "btnread";
             this.btnread.Size = new System.Drawing.Size(76, 34);
             this.btnread.TabIndex = 87;
@@ -106,14 +112,6 @@
             this.btn_insert.UseVisualStyleBackColor = true;
             this.btn_insert.Click += new System.EventHandler(this.btn_insert_Click);
             // 
-            // txt_name
-            // 
-            this.txt_name.Font = new System.Drawing.Font("微軟正黑體", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.txt_name.Location = new System.Drawing.Point(135, 113);
-            this.txt_name.Name = "txt_name";
-            this.txt_name.Size = new System.Drawing.Size(100, 33);
-            this.txt_name.TabIndex = 84;
-            // 
             // lunch
             // 
             this.lunch.AutoSize = true;
@@ -122,7 +120,7 @@
             this.lunch.Name = "lunch";
             this.lunch.Size = new System.Drawing.Size(61, 30);
             this.lunch.TabIndex = 83;
-            this.lunch.Text = "午餐";
+            this.lunch.Text = "餐點";
             // 
             // txtname
             // 
@@ -165,60 +163,69 @@
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.master_id,
-            this.employee_id,
+            this.datagrid_master_id,
+            this.datagrid_detail_id,
+            this.datagrid_employee_id,
             this.employee_name,
-            this.lunch_id,
+            this.datagrid_lunch_id,
             this.mylunch,
             this.date});
             this.dataGridView1.Location = new System.Drawing.Point(42, 322);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(559, 150);
+            this.dataGridView1.Size = new System.Drawing.Size(543, 150);
             this.dataGridView1.TabIndex = 90;
             this.dataGridView1.DoubleClick += new System.EventHandler(this.dataGridView1_DoubleClick);
             // 
-            // master_id
+            // datagrid_master_id
             // 
-            this.master_id.DataPropertyName = "master_id";
-            this.master_id.HeaderText = "master_id";
-            this.master_id.Name = "master_id";
-            this.master_id.ReadOnly = true;
-            this.master_id.Visible = false;
+            this.datagrid_master_id.DataPropertyName = "master_id";
+            this.datagrid_master_id.HeaderText = "master_id";
+            this.datagrid_master_id.Name = "datagrid_master_id";
+            this.datagrid_master_id.ReadOnly = true;
+            this.datagrid_master_id.Visible = false;
             // 
-            // employee_id
+            // datagrid_detail_id
             // 
-            this.employee_id.DataPropertyName = "employee_id";
-            this.employee_id.HeaderText = "employee_id";
-            this.employee_id.Name = "employee_id";
-            this.employee_id.ReadOnly = true;
+            this.datagrid_detail_id.DataPropertyName = "detail_id";
+            this.datagrid_detail_id.HeaderText = "detail_id";
+            this.datagrid_detail_id.Name = "datagrid_detail_id";
+            this.datagrid_detail_id.ReadOnly = true;
+            this.datagrid_detail_id.Visible = false;
+            // 
+            // datagrid_employee_id
+            // 
+            this.datagrid_employee_id.DataPropertyName = "employee_id";
+            this.datagrid_employee_id.HeaderText = "員工編號";
+            this.datagrid_employee_id.Name = "datagrid_employee_id";
+            this.datagrid_employee_id.ReadOnly = true;
             // 
             // employee_name
             // 
             this.employee_name.DataPropertyName = "employee_name";
-            this.employee_name.HeaderText = "name";
+            this.employee_name.HeaderText = "員工姓名";
             this.employee_name.Name = "employee_name";
             this.employee_name.ReadOnly = true;
             // 
-            // lunch_id
+            // datagrid_lunch_id
             // 
-            this.lunch_id.DataPropertyName = "lunch_id";
-            this.lunch_id.HeaderText = "lunch_id";
-            this.lunch_id.Name = "lunch_id";
-            this.lunch_id.ReadOnly = true;
+            this.datagrid_lunch_id.DataPropertyName = "lunch_id";
+            this.datagrid_lunch_id.HeaderText = "餐點編號";
+            this.datagrid_lunch_id.Name = "datagrid_lunch_id";
+            this.datagrid_lunch_id.ReadOnly = true;
             // 
             // mylunch
             // 
             this.mylunch.DataPropertyName = "lunch";
-            this.mylunch.HeaderText = "lunch";
+            this.mylunch.HeaderText = "餐點";
             this.mylunch.Name = "mylunch";
             this.mylunch.ReadOnly = true;
             // 
             // date
             // 
             this.date.DataPropertyName = "date";
-            this.date.HeaderText = "date";
+            this.date.HeaderText = "日期";
             this.date.Name = "date";
             this.date.ReadOnly = true;
             // 
@@ -239,7 +246,7 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(268, 87);
+            this.comboBox1.Location = new System.Drawing.Point(464, 77);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 20);
             this.comboBox1.TabIndex = 91;
@@ -278,11 +285,74 @@
             this.txt_showdate.Size = new System.Drawing.Size(100, 22);
             this.txt_showdate.TabIndex = 96;
             // 
+            // index_employeeid
+            // 
+            this.index_employeeid.Font = new System.Drawing.Font("新細明體", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.index_employeeid.ForeColor = System.Drawing.Color.IndianRed;
+            this.index_employeeid.Location = new System.Drawing.Point(264, 113);
+            this.index_employeeid.Name = "index_employeeid";
+            this.index_employeeid.Size = new System.Drawing.Size(100, 25);
+            this.index_employeeid.TabIndex = 98;
+            this.index_employeeid.Text = "employee_id";
+            this.index_employeeid.Visible = false;
+            // 
+            // index_lunchid
+            // 
+            this.index_lunchid.Font = new System.Drawing.Font("新細明體", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.index_lunchid.ForeColor = System.Drawing.Color.IndianRed;
+            this.index_lunchid.Location = new System.Drawing.Point(264, 159);
+            this.index_lunchid.Name = "index_lunchid";
+            this.index_lunchid.Size = new System.Drawing.Size(66, 25);
+            this.index_lunchid.TabIndex = 99;
+            this.index_lunchid.Text = "lunch_id";
+            this.index_lunchid.Visible = false;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(604, 464);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 100;
+            this.button1.Text = "test";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // comboBox_name
+            // 
+            this.comboBox_name.FormattingEnabled = true;
+            this.comboBox_name.Location = new System.Drawing.Point(124, 118);
+            this.comboBox_name.Name = "comboBox_name";
+            this.comboBox_name.Size = new System.Drawing.Size(121, 20);
+            this.comboBox_name.TabIndex = 101;
+            // 
+            // btn_lunch
+            // 
+            this.btn_lunch.Location = new System.Drawing.Point(345, 159);
+            this.btn_lunch.Name = "btn_lunch";
+            this.btn_lunch.Size = new System.Drawing.Size(75, 23);
+            this.btn_lunch.TabIndex = 102;
+            this.btn_lunch.Text = "選擇餐點";
+            this.btn_lunch.UseVisualStyleBackColor = true;
+            this.btn_lunch.Click += new System.EventHandler(this.btn_lunch_Click);
+            // 
+            // txt_lunch
+            // 
+            this.txt_lunch.Location = new System.Drawing.Point(440, 159);
+            this.txt_lunch.Name = "txt_lunch";
+            this.txt_lunch.Size = new System.Drawing.Size(103, 22);
+            this.txt_lunch.TabIndex = 103;
+            // 
             // main_form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(653, 499);
+            this.ClientSize = new System.Drawing.Size(698, 499);
+            this.Controls.Add(this.txt_lunch);
+            this.Controls.Add(this.btn_lunch);
+            this.Controls.Add(this.comboBox_name);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.index_lunchid);
+            this.Controls.Add(this.index_employeeid);
             this.Controls.Add(this.txt_showdate);
             this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.comboBox_lunch);
@@ -293,7 +363,6 @@
             this.Controls.Add(this.btndelete);
             this.Controls.Add(this.btnread);
             this.Controls.Add(this.btn_insert);
-            this.Controls.Add(this.txt_name);
             this.Controls.Add(this.lunch);
             this.Controls.Add(this.txtname);
             this.Controls.Add(this.label1);
@@ -316,7 +385,6 @@
         private System.Windows.Forms.Button btndelete;
         private System.Windows.Forms.Button btnread;
         private System.Windows.Forms.Button btn_insert;
-        private System.Windows.Forms.TextBox txt_name;
         private System.Windows.Forms.Label lunch;
         private System.Windows.Forms.Label txtname;
         private System.Windows.Forms.Label label1;
@@ -332,12 +400,19 @@
         private System.Windows.Forms.ComboBox comboBox_lunch;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.TextBox txt_showdate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn master_id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn employee_id;
+        private System.Windows.Forms.TextBox index_employeeid;
+        private System.Windows.Forms.TextBox index_lunchid;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ComboBox comboBox_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn datagrid_master_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn datagrid_detail_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn datagrid_employee_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn employee_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn lunch_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn datagrid_lunch_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn mylunch;
         private System.Windows.Forms.DataGridViewTextBoxColumn date;
+        private System.Windows.Forms.Button btn_lunch;
+        private System.Windows.Forms.TextBox txt_lunch;
     }
 }
 

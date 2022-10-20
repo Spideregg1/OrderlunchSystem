@@ -92,6 +92,12 @@
     <Compile Include="lunchtable.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Menu_form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Menu_form.Designer.cs">
+      <DependentUpon>Menu_form.cs</DependentUpon>
+    </Compile>
     <Compile Include="Model1.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -127,6 +133,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="employee_form.resx">
       <DependentUpon>employee_form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Menu_form.resx">
+      <DependentUpon>Menu_form.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
