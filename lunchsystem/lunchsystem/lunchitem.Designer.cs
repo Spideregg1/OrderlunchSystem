@@ -37,6 +37,9 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.lunch_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.午餐 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txt_price = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -107,11 +110,12 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.lunch_id,
-            this.午餐});
-            this.dataGridView1.Location = new System.Drawing.Point(80, 256);
+            this.午餐,
+            this.price});
+            this.dataGridView1.Location = new System.Drawing.Point(68, 266);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(251, 150);
+            this.dataGridView1.Size = new System.Drawing.Size(344, 150);
             this.dataGridView1.TabIndex = 102;
             this.dataGridView1.DoubleClick += new System.EventHandler(this.dataGridView1_DoubleClick);
             // 
@@ -127,11 +131,37 @@
             this.午餐.HeaderText = "午餐";
             this.午餐.Name = "午餐";
             // 
+            // price
+            // 
+            this.price.DataPropertyName = "price";
+            this.price.HeaderText = "價格";
+            this.price.Name = "price";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("微軟正黑體", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label2.Location = new System.Drawing.Point(291, 137);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(61, 30);
+            this.label2.TabIndex = 103;
+            this.label2.Text = "價格";
+            // 
+            // txt_price
+            // 
+            this.txt_price.Font = new System.Drawing.Font("微軟正黑體", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.txt_price.Location = new System.Drawing.Point(358, 136);
+            this.txt_price.Name = "txt_price";
+            this.txt_price.Size = new System.Drawing.Size(100, 33);
+            this.txt_price.TabIndex = 104;
+            // 
             // lunchitem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(393, 468);
+            this.ClientSize = new System.Drawing.Size(513, 468);
+            this.Controls.Add(this.txt_price);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.txt_lunch_name);
             this.Controls.Add(this.label1);
@@ -158,5 +188,8 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.DataGridViewTextBoxColumn lunch_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn 午餐;
+        private System.Windows.Forms.DataGridViewTextBoxColumn price;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txt_price;
     }
 }

@@ -89,9 +89,6 @@
     <Compile Include="employee_form.Designer.cs">
       <DependentUpon>employee_form.cs</DependentUpon>
     </Compile>
-    <Compile Include="lunchtable.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Menu_form.cs">
       <SubType>Form</SubType>
     </Compile>

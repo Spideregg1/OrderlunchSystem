@@ -22,10 +22,9 @@ namespace lunchsystem
         public void LoadData()//load data
         {
             dataGridView1.AutoGenerateColumns = false;
-            using (MylunchEntities1 db = new MylunchEntities1())
-            {
-                dataGridView1.DataSource = db.C3NF_午餐種類.ToList();
-            }
+           
+            dataGridView1.DataSource = db.C3NF_午餐種類.ToList();
+            
             
         }
 
@@ -51,9 +50,14 @@ namespace lunchsystem
             {
                 MessageBox.Show("請填入種類");
             }
+            else if (string.IsNullOrEmpty(txt_price.Text))
+            {
+                MessageBox.Show("請輸入價格");
+            }
             else
             {
                 lunchitemtable.lunch = txt_lunch_name.Text.Trim();
+                lunchitemtable.price = Convert.ToInt32(txt_price.Text.Trim());
                 if (lunchitemtable.lunch_id == 0)
                 {
                     db.C3NF_午餐種類.Add(lunchitemtable);
@@ -82,17 +86,20 @@ namespace lunchsystem
 
         private void dataGridView1_DoubleClick(object sender, EventArgs e)//點擊二下想改的地方
         {
-            if (dataGridView1.CurrentRow.Index != -1)
+            if (dataGridView1.CurrentRow.Index == -1)
             {
-                lunchitemtable.lunch_id = Convert.ToInt32(dataGridView1.CurrentRow.Cells["lunch_id"].Value);
+                return;
+            }
+                lunchitemtable.lunch_id = Convert.ToInt32(dataGridView1.CurrentRow.Cells[lunch_id.Index].Value);
                 lunchitemtable= db.C3NF_午餐種類.Where(x => x.lunch_id == lunchitemtable.lunch_id).FirstOrDefault();
                 txt_lunch_name.Text = lunchitemtable.lunch;
-            }
+            
         }
 
         private void btnupdate_Click(object sender, EventArgs e)
         {
             lunchitemtable.lunch = txt_lunch_name.Text;
+            lunchitemtable.price = Convert.ToInt32(txt_price.Text);
             if (lunchitemtable.lunch_id != 0)
             {
                 db.Entry(lunchitemtable).State = EntityState.Modified;
@@ -103,8 +110,9 @@ namespace lunchsystem
             MessageBox.Show("更新成功");
         }
 
+
         #endregion
 
-
+        
     }
 }

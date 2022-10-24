@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -69,6 +70,23 @@ namespace lunchsystem
 
 
         }
-        
+
+        private void datagridview_change_color(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex>-1)
+            {
+                int color_changed_price = Convert.ToInt32(dataGridView_menu.Rows[e.RowIndex].Cells[price.Index].Value);
+
+                if (color_changed_price <= 50 && color_changed_price >= 0)
+                {
+                    dataGridView_menu.Rows[e.RowIndex].Cells[price.Index].Style.BackColor = Color.Blue;
+                }
+                else
+                {
+                    dataGridView_menu.Rows[e.RowIndex].Cells[price.Index].Style.BackColor = Color.Red;
+                }
+            }
+        }
+
     }
 }

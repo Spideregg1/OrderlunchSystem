@@ -25,7 +25,6 @@ namespace lunchsystem
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<lunchtable> lunchtables { get; set; }
         public virtual DbSet<C2NF_訂單細表> C2NF_訂單細表 { get; set; }
         public virtual DbSet<C2NF_員工清單> C2NF_員工清單 { get; set; }
         public virtual DbSet<C3NF_午餐> C3NF_午餐 { get; set; }

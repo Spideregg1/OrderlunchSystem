@@ -5,7 +5,6 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="953f056d50144b28bc6781e9282dfd2b" Name="Diagram1" ZoomLevel="115">
-        <EntityTypeShape EntityType="MylunchModel.lunchtable" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="MylunchModel.C2NF_訂單細表" Width="1.5" PointX="5.625" PointY="0.875" />
         <EntityTypeShape EntityType="MylunchModel.C2NF_員工清單" Width="1.5" PointX="3.375" PointY="1.125" />
         <EntityTypeShape EntityType="MylunchModel.C3NF_午餐" Width="1.5" PointX="7.875" PointY="0.875" />

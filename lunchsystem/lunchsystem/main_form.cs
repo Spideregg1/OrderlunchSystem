@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Data;
 using System.Data.Entity;
+using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -10,10 +12,10 @@ namespace lunchsystem
     {
         // TODO 20221017：程式內滿滿的　new MylunchEntities1，統一一個使用 done!
         MylunchEntities1 db = new MylunchEntities1();//lunch db
-        lunchtable lunchtable = new lunchtable();//lunch
+
         C2NF_訂單細表 form_head = new C2NF_訂單細表();//表頭
         C3NF_午餐 form_body = new C3NF_午餐();//表身
-        C3NF_午餐種類 lunch_item = new C3NF_午餐種類();
+
 
 
         public main_form()
@@ -56,6 +58,8 @@ namespace lunchsystem
             comboBox_name.DataSource = employee_list.ToArray();
             comboBox_name.DisplayMember = "employee_name";
             comboBox_name.ValueMember = "employee_id";
+
+
 
 
             //comboBox_lunch.Items.Add(new ComboBoxItem("1", "便當"));
@@ -114,7 +118,7 @@ namespace lunchsystem
 
             var source = query.ToList();
             dataGridView1.DataSource = source;
-
+            
 
 
 
@@ -160,30 +164,30 @@ namespace lunchsystem
 
         }
 
-        private void btnread_Click(object sender, EventArgs e) //查詢
-        {
-            string txt_lunch = null;
-            string value = ComboBoxUtil.GetItem(comboBox1).Value;
-            lunchtable.date = dateTimePicker1.Value;
+        ////private void btnread_Click(object sender, EventArgs e) //查詢
+        //{
+
+        //    string value = ComboBoxUtil.GetItem(comboBox1).Value;
+
+        //    int Employee_ID = Convert.ToInt32(dataGridView1.CurrentRow.Cells[datagrid_employee_id.Index].Value);
 
 
+        //    //txt_lunch = valueoflunch();
 
-            //txt_lunch = valueoflunch();
+        //    ///if (value == "1")
+        //    //{
+        //        //dataGridView1.DataSource = db.C2NF_員工清單.Where(x => x.employee_id == Employee_ID).ToList();
+        //    //}
+        //    //else if (value == "2")
+        //    //{
+        //    //    dataGridView1.DataSource = db.lunchtables.Where(x => x.lunch.Contains(txt_lunch)).ToList();
+        //    //}
+        //    //else if (value == "3")
+        //    //{
 
-            if (value == "1")
-            {
-                //dataGridView1.DataSource = db.lunchtables.Where(x => x.name.Contains(txt_name.Text)).ToList();
-            }
-            else if (value == "2")
-            {
-                dataGridView1.DataSource = db.lunchtables.Where(x => x.lunch.Contains(txt_lunch)).ToList();
-            }
-            else if (value == "3")
-            {
-
-                dataGridView1.DataSource = db.lunchtables.Where(x => x.date == lunchtable.date).ToList();
-            }
-        }
+        //    //    dataGridView1.DataSource = db.lunchtables.Where(x => x.date == lunchtable.date).ToList();
+        //    //}
+        //}
 
         void Clear()//清空text的資料值
         {
@@ -208,6 +212,7 @@ namespace lunchsystem
 
         private void btndelete_Click(object sender, EventArgs e)
         {
+
             db.C2NF_訂單細表.Remove(form_head);
             db.C3NF_午餐.Remove(form_body);
 
@@ -325,10 +330,49 @@ namespace lunchsystem
             menu_Form.Show(this);
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            // var demo = new ComboBoxItem("", "") { Value = "", Text = "" };
+
+            // var demo = new ComboBoxItem() { Value = "", Text = "" };
+            // var demo2 = new ComboBoxItem("" , "") { Value = "", Text = "" };
+            // 唯一
+            // var demo3 = new ComboBoxItem("" , "");
+
+            //demo2.Value = "";
+            //var getValue = demo2.Value;
+
+            // var demo2 = new ConstructorDemo();
+        }
+
+        public void changeDataGridViewColor(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex >= -1)
+            {
+
+                DateTime colorchanged_date = Convert.ToDateTime(dataGridView1.Rows[e.RowIndex].Cells[date.Index].Value);
+
+                int yy = colorchanged_date.Year;
+                DateTime start = new DateTime(yy, 10, 20);
+                if (colorchanged_date < start)
+                {
+                    dataGridView1.Rows[e.RowIndex].Cells[date.Index].Style.BackColor = System.Drawing.Color.Magenta;
+                }
+                else
+                {
+                    dataGridView1.Rows[e.RowIndex].Cells[date.Index].Style.BackColor = System.Drawing.Color.Orange;
+                }
+
+                string vegan = (dataGridView1.Rows[e.RowIndex].Cells[mylunch.Index].Value).ToString();
+
+                if (vegan.Trim() == "素食")
+                {
+                    dataGridView1.Rows[e.RowIndex].Cells[mylunch.Index].Style.BackColor = Color.Green;
+                }
+
+            }
 
 
-
-
-
+        }
     }
 }

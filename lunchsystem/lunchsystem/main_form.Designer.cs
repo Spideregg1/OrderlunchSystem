@@ -61,6 +61,7 @@
             this.comboBox_name = new System.Windows.Forms.ComboBox();
             this.btn_lunch = new System.Windows.Forms.Button();
             this.txt_lunch = new System.Windows.Forms.TextBox();
+            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.lunchtableBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mylunchDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -99,7 +100,6 @@
             this.btnread.TabIndex = 87;
             this.btnread.Text = "查詢";
             this.btnread.UseVisualStyleBackColor = true;
-            this.btnread.Click += new System.EventHandler(this.btnread_Click);
             // 
             // btn_insert
             // 
@@ -176,6 +176,7 @@
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.Size = new System.Drawing.Size(543, 150);
             this.dataGridView1.TabIndex = 90;
+            this.dataGridView1.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.changeDataGridViewColor);
             this.dataGridView1.DoubleClick += new System.EventHandler(this.dataGridView1_DoubleClick);
             // 
             // datagrid_master_id
@@ -309,7 +310,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(604, 464);
+            this.button1.Location = new System.Drawing.Point(934, 464);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 100;
@@ -342,11 +343,22 @@
             this.txt_lunch.Size = new System.Drawing.Size(103, 22);
             this.txt_lunch.TabIndex = 103;
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(715, 157);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 104;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // main_form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(698, 499);
+            this.ClientSize = new System.Drawing.Size(1021, 499);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.txt_lunch);
             this.Controls.Add(this.btn_lunch);
             this.Controls.Add(this.comboBox_name);
@@ -413,6 +425,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn date;
         private System.Windows.Forms.Button btn_lunch;
         private System.Windows.Forms.TextBox txt_lunch;
+        private System.Windows.Forms.Button button2;
     }
 }
 
