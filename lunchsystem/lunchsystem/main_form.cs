@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data;
 using System.Data.Entity;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -73,10 +72,7 @@ namespace lunchsystem
         public void LoadData()//load data
         {
             dataGridView1.AutoGenerateColumns = false;
-
-
-
-
+            dataGridView2.AutoGenerateColumns = false;
 
             // Linq to Entity 或 Linq to SQL
             // Lambda Express
@@ -118,8 +114,23 @@ namespace lunchsystem
 
             var source = query.ToList();
             dataGridView1.DataSource = source;
-            
 
+            string TSQL = 
+                    @"Select
+	                date,
+	                [1] as rice,
+	                [2] as food,
+	                [3] as vegan
+	                from 
+	                (Select date,lunch_id from [dbo].[2NF_訂單細表] as H
+	                join [dbo].[3NF_午餐] as B on H.master_id = B.master_id
+	                ) as main_table
+                pivot (count(lunch_id) for lunch_id in ([1],[2],[3])) as T_pivot";
+
+            var source2 = db.Database.SqlQuery<FoodNumberViewModel>(TSQL);
+
+
+            dataGridView2.DataSource = source2.ToList();
 
 
 
@@ -139,18 +150,19 @@ namespace lunchsystem
 
             for (int i = 0; i < index_lunch.Length; i++)
             {
-                form_head.employee_id = comboBox_name.SelectedIndex + 1;
-
-                form_body.master_id = form_head.master_id;
-
                 form_head.date = dateTimePicker1.Value;
+                form_head.employee_id = comboBox_name.SelectedIndex + 1;
+                db.C2NF_訂單細表.Add(form_head);
 
-
+                // EF 對應 masterid
+                form_body.master_id = form_head.master_id;
                 form_body.lunch_id = index_lunch[i];
 
                 //form_body.lunch_id = comboBox_lunch.SelectedIndex + 1;
-                db.C2NF_訂單細表.Add(form_head);
+                // TODO 20221024 檔頭重覆增加
+
                 db.C3NF_午餐.Add(form_body);
+
                 db.SaveChanges();
             }
 
@@ -327,6 +339,7 @@ namespace lunchsystem
         {
 
             Menu_form menu_Form = new Menu_form();
+            // TODO 20221024 Form.Show() 和 FormShowDialog() 差異 差異在於Form.show() 可以無限打開另一個Form；Form.ShowDialog() 只能一次 關掉後才能存取
             menu_Form.Show(this);
         }
 
@@ -349,25 +362,26 @@ namespace lunchsystem
         {
             if (e.RowIndex >= -1)
             {
+                DataGridViewCell dgvc = dataGridView1.Rows[e.RowIndex].Cells[date.Index];
+                DateTime colorchanged_date = Convert.ToDateTime(dgvc.Value);
 
-                DateTime colorchanged_date = Convert.ToDateTime(dataGridView1.Rows[e.RowIndex].Cells[date.Index].Value);
 
                 int yy = colorchanged_date.Year;
                 DateTime start = new DateTime(yy, 10, 20);
                 if (colorchanged_date < start)
                 {
-                    dataGridView1.Rows[e.RowIndex].Cells[date.Index].Style.BackColor = System.Drawing.Color.Magenta;
+                    dgvc.Style.BackColor = Color.Magenta;
                 }
                 else
                 {
-                    dataGridView1.Rows[e.RowIndex].Cells[date.Index].Style.BackColor = System.Drawing.Color.Orange;
+                    dgvc.Style.BackColor = Color.Orange;
                 }
 
-                string vegan = (dataGridView1.Rows[e.RowIndex].Cells[mylunch.Index].Value).ToString();
+                string vegan = (dgvc.Value).ToString();
 
                 if (vegan.Trim() == "素食")
                 {
-                    dataGridView1.Rows[e.RowIndex].Cells[mylunch.Index].Style.BackColor = Color.Green;
+                    dgvc.Style.BackColor = Color.Green;
                 }
 
             }

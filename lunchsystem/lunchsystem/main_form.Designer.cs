@@ -62,11 +62,18 @@
             this.btn_lunch = new System.Windows.Forms.Button();
             this.txt_lunch = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.日期 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.炒飯 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.便當 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.素食 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.lunchtableBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mylunchDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mylunchDataSet1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lunchtableBindingSource1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
             // 
             // btnupdate
@@ -353,11 +360,61 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // dataGridView2
+            // 
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.日期,
+            this.炒飯,
+            this.便當,
+            this.素食});
+            this.dataGridView2.Location = new System.Drawing.Point(647, 254);
+            this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.RowTemplate.Height = 24;
+            this.dataGridView2.Size = new System.Drawing.Size(443, 150);
+            this.dataGridView2.TabIndex = 105;
+            // 
+            // 日期
+            // 
+            this.日期.DataPropertyName = "date";
+            this.日期.HeaderText = "日期";
+            this.日期.Name = "日期";
+            // 
+            // 炒飯
+            // 
+            this.炒飯.DataPropertyName = "rice";
+            this.炒飯.HeaderText = "炒飯";
+            this.炒飯.Name = "炒飯";
+            // 
+            // 便當
+            // 
+            this.便當.DataPropertyName = "food";
+            this.便當.HeaderText = "便當";
+            this.便當.Name = "便當";
+            // 
+            // 素食
+            // 
+            this.素食.DataPropertyName = "vegan";
+            this.素食.HeaderText = "素食";
+            this.素食.Name = "素食";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("微軟正黑體", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label3.Location = new System.Drawing.Point(807, 206);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(110, 31);
+            this.label3.TabIndex = 106;
+            this.label3.Text = "訂單數量";
+            // 
             // main_form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1021, 499);
+            this.ClientSize = new System.Drawing.Size(1131, 552);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.txt_lunch);
             this.Controls.Add(this.btn_lunch);
@@ -386,6 +443,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mylunchDataSet1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lunchtableBindingSource1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -426,6 +484,12 @@
         private System.Windows.Forms.Button btn_lunch;
         private System.Windows.Forms.TextBox txt_lunch;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 日期;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 炒飯;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 便當;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 素食;
+        private System.Windows.Forms.Label label3;
     }
 }
 

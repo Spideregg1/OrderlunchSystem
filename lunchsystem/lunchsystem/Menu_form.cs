@@ -5,11 +5,17 @@ using System.Windows.Forms;
 
 namespace lunchsystem
 {
+
     public partial class Menu_form : Form
     {
         MylunchEntities1 db = new MylunchEntities1();//lunch db
+        // TODO 20220224 請說明回傳值選擇，為什麼是串接字串回傳？
         public string _lunch_name = null;
         public string _index_lunch_id = null;
+
+        public const int low_price = 0;
+        public const int high_price = 50;
+
         public Menu_form()
         {
             InitializeComponent();
@@ -77,13 +83,18 @@ namespace lunchsystem
             {
                 int color_changed_price = Convert.ToInt32(dataGridView_menu.Rows[e.RowIndex].Cells[price.Index].Value);
 
-                if (color_changed_price <= 50 && color_changed_price >= 0)
+
+                DataGridViewCell dgvc = dataGridView_menu.Rows[e.RowIndex].Cells[price.Index];
+                // TODO 20221024 Google Magic Number done!
+
+                if (color_changed_price <= high_price && color_changed_price >= low_price)
                 {
-                    dataGridView_menu.Rows[e.RowIndex].Cells[price.Index].Style.BackColor = Color.Blue;
+                    // TODO 20221024 dataGridView_menu.Rows[e.RowIndex].Cells[price.Index].Style.BackColor 重覆 done!
+                    dgvc.Style.BackColor = Color.Blue;
                 }
                 else
                 {
-                    dataGridView_menu.Rows[e.RowIndex].Cells[price.Index].Style.BackColor = Color.Red;
+                    dgvc.Style.BackColor = Color.Red;
                 }
             }
         }

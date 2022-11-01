@@ -67,6 +67,7 @@
     <Compile Include="C3NF_午餐種類.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="FoodNumberViewModel.cs" />
     <Compile Include="Extensionmethod.cs" />
     <Compile Include="ComboBoxUtil.cs" />
     <Compile Include="ComboBoxItem.cs" />
