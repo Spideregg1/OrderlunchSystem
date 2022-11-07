@@ -35,6 +35,7 @@
           <Property Name="lunch_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="lunch" Type="nchar" MaxLength="10" />
           <Property Name="price" Type="int" />
+          <Property Name="photo" Type="varbinary(max)" />
         </EntityType>
         <Association Name="FK_2NF_訂單細表_2NF_員工清單">
           <End Role="2NF_員工清單" Type="Self.2NF_員工清單" Multiplicity="0..1" />
@@ -148,6 +149,7 @@
           <Property Name="lunch" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="C3NF_午餐" Relationship="MylunchModel.FK_3NF_午餐_3NF_午餐種類" FromRole="C3NF_午餐種類" ToRole="C3NF_午餐" />
           <Property Name="price" Type="Int32" />
+          <Property Name="photo" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <Association Name="FK_2NF_訂單細表_2NF_員工清單">
           <End Type="MylunchModel.C2NF_員工清單" Role="C2NF_員工清單" Multiplicity="0..1" />
@@ -220,6 +222,7 @@
           <EntitySetMapping Name="C3NF_午餐種類">
             <EntityTypeMapping TypeName="MylunchModel.C3NF_午餐種類">
               <MappingFragment StoreEntitySet="3NF_午餐種類">
+                <ScalarProperty Name="photo" ColumnName="photo" />
                 <ScalarProperty Name="price" ColumnName="price" />
                 <ScalarProperty Name="lunch" ColumnName="lunch" />
                 <ScalarProperty Name="lunch_id" ColumnName="lunch_id" />

@@ -23,6 +23,7 @@ namespace lunchsystem
         public int lunch_id { get; set; }
         public string lunch { get; set; }
         public Nullable<int> price { get; set; }
+        public byte[] photo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<C3NF_午餐> C3NF_午餐 { get; set; }

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(main_form));
             this.btnupdate = new System.Windows.Forms.Button();
             this.btndelete = new System.Windows.Forms.Button();
             this.btnread = new System.Windows.Forms.Button();
@@ -55,12 +56,9 @@
             this.comboBox_lunch = new System.Windows.Forms.ComboBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.txt_showdate = new System.Windows.Forms.TextBox();
-            this.index_employeeid = new System.Windows.Forms.TextBox();
-            this.index_lunchid = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.comboBox_name = new System.Windows.Forms.ComboBox();
             this.btn_lunch = new System.Windows.Forms.Button();
-            this.txt_lunch = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.日期 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -68,18 +66,28 @@
             this.便當 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.素食 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.dataGridView3 = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.index_employeeid = new System.Windows.Forms.TextBox();
+            this.index_lunchid = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.lunchtableBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mylunchDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mylunchDataSet1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lunchtableBindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnupdate
             // 
             this.btnupdate.Font = new System.Drawing.Font("微軟正黑體", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btnupdate.Location = new System.Drawing.Point(217, 254);
+            this.btnupdate.Location = new System.Drawing.Point(226, 254);
             this.btnupdate.Name = "btnupdate";
             this.btnupdate.Size = new System.Drawing.Size(76, 34);
             this.btnupdate.TabIndex = 89;
@@ -144,7 +152,7 @@
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Cyan;
             this.label1.Font = new System.Drawing.Font("微軟正黑體", 20F, System.Drawing.FontStyle.Bold);
-            this.label1.Location = new System.Drawing.Point(153, 28);
+            this.label1.Location = new System.Drawing.Point(180, 28);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(150, 35);
             this.label1.TabIndex = 81;
@@ -177,7 +185,7 @@
             this.datagrid_lunch_id,
             this.mylunch,
             this.date});
-            this.dataGridView1.Location = new System.Drawing.Point(42, 322);
+            this.dataGridView1.Location = new System.Drawing.Point(30, 358);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 24;
@@ -288,36 +296,15 @@
             // txt_showdate
             // 
             this.txt_showdate.Font = new System.Drawing.Font("新細明體", 9F);
-            this.txt_showdate.Location = new System.Drawing.Point(320, 206);
+            this.txt_showdate.Location = new System.Drawing.Point(332, 206);
             this.txt_showdate.Name = "txt_showdate";
             this.txt_showdate.Size = new System.Drawing.Size(100, 22);
             this.txt_showdate.TabIndex = 96;
-            // 
-            // index_employeeid
-            // 
-            this.index_employeeid.Font = new System.Drawing.Font("新細明體", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.index_employeeid.ForeColor = System.Drawing.Color.IndianRed;
-            this.index_employeeid.Location = new System.Drawing.Point(264, 113);
-            this.index_employeeid.Name = "index_employeeid";
-            this.index_employeeid.Size = new System.Drawing.Size(100, 25);
-            this.index_employeeid.TabIndex = 98;
-            this.index_employeeid.Text = "employee_id";
-            this.index_employeeid.Visible = false;
-            // 
-            // index_lunchid
-            // 
-            this.index_lunchid.Font = new System.Drawing.Font("新細明體", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.index_lunchid.ForeColor = System.Drawing.Color.IndianRed;
-            this.index_lunchid.Location = new System.Drawing.Point(264, 159);
-            this.index_lunchid.Name = "index_lunchid";
-            this.index_lunchid.Size = new System.Drawing.Size(66, 25);
-            this.index_lunchid.TabIndex = 99;
-            this.index_lunchid.Text = "lunch_id";
-            this.index_lunchid.Visible = false;
+            this.txt_showdate.Text = "民國：";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(934, 464);
+            this.button1.Location = new System.Drawing.Point(1055, 526);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 100;
@@ -335,24 +322,17 @@
             // 
             // btn_lunch
             // 
-            this.btn_lunch.Location = new System.Drawing.Point(345, 159);
+            this.btn_lunch.Location = new System.Drawing.Point(345, 156);
             this.btn_lunch.Name = "btn_lunch";
-            this.btn_lunch.Size = new System.Drawing.Size(75, 23);
+            this.btn_lunch.Size = new System.Drawing.Size(87, 28);
             this.btn_lunch.TabIndex = 102;
             this.btn_lunch.Text = "選擇餐點";
             this.btn_lunch.UseVisualStyleBackColor = true;
             this.btn_lunch.Click += new System.EventHandler(this.btn_lunch_Click);
             // 
-            // txt_lunch
-            // 
-            this.txt_lunch.Location = new System.Drawing.Point(440, 159);
-            this.txt_lunch.Name = "txt_lunch";
-            this.txt_lunch.Size = new System.Drawing.Size(103, 22);
-            this.txt_lunch.TabIndex = 103;
-            // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(715, 157);
+            this.button2.Location = new System.Drawing.Point(974, 526);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 104;
@@ -368,7 +348,7 @@
             this.炒飯,
             this.便當,
             this.素食});
-            this.dataGridView2.Location = new System.Drawing.Point(647, 254);
+            this.dataGridView2.Location = new System.Drawing.Point(649, 358);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowTemplate.Height = 24;
             this.dataGridView2.Size = new System.Drawing.Size(443, 150);
@@ -402,21 +382,97 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("微軟正黑體", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label3.Location = new System.Drawing.Point(807, 206);
+            this.label3.Location = new System.Drawing.Point(826, 306);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(110, 31);
             this.label3.TabIndex = 106;
             this.label3.Text = "訂單數量";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("微軟正黑體", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label4.Location = new System.Drawing.Point(802, 48);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(134, 31);
+            this.label4.TabIndex = 107;
+            this.label4.Text = "訂單總金額";
+            // 
+            // dataGridView3
+            // 
+            this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView3.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn1,
+            this.dataGridViewTextBoxColumn2,
+            this.dataGridViewTextBoxColumn3});
+            this.dataGridView3.Location = new System.Drawing.Point(717, 96);
+            this.dataGridView3.Name = "dataGridView3";
+            this.dataGridView3.RowTemplate.Height = 24;
+            this.dataGridView3.Size = new System.Drawing.Size(345, 133);
+            this.dataGridView3.TabIndex = 108;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "food";
+            this.dataGridViewTextBoxColumn1.HeaderText = "餐點";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.DataPropertyName = "total_count";
+            this.dataGridViewTextBoxColumn2.HeaderText = "總數";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.DataPropertyName = "total_amount";
+            this.dataGridViewTextBoxColumn3.HeaderText = "總金額";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(30, 28);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(100, 50);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 109;
+            this.pictureBox1.TabStop = false;
+            // 
+            // index_employeeid
+            // 
+            this.index_employeeid.Font = new System.Drawing.Font("新細明體", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.index_employeeid.ForeColor = System.Drawing.Color.IndianRed;
+            this.index_employeeid.Location = new System.Drawing.Point(264, 113);
+            this.index_employeeid.Name = "index_employeeid";
+            this.index_employeeid.Size = new System.Drawing.Size(100, 25);
+            this.index_employeeid.TabIndex = 98;
+            this.index_employeeid.Text = "employee_id";
+            this.index_employeeid.Visible = false;
+            // 
+            // index_lunchid
+            // 
+            this.index_lunchid.Font = new System.Drawing.Font("新細明體", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.index_lunchid.ForeColor = System.Drawing.Color.IndianRed;
+            this.index_lunchid.Location = new System.Drawing.Point(264, 159);
+            this.index_lunchid.Name = "index_lunchid";
+            this.index_lunchid.Size = new System.Drawing.Size(66, 25);
+            this.index_lunchid.TabIndex = 99;
+            this.index_lunchid.Text = "lunch_id";
+            this.index_lunchid.Visible = false;
+            // 
             // main_form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1131, 552);
+            this.ClientSize = new System.Drawing.Size(1178, 573);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.dataGridView3);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.txt_lunch);
             this.Controls.Add(this.btn_lunch);
             this.Controls.Add(this.comboBox_name);
             this.Controls.Add(this.button1);
@@ -444,6 +500,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.mylunchDataSet1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lunchtableBindingSource1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -470,8 +528,6 @@
         private System.Windows.Forms.ComboBox comboBox_lunch;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.TextBox txt_showdate;
-        private System.Windows.Forms.TextBox index_employeeid;
-        private System.Windows.Forms.TextBox index_lunchid;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ComboBox comboBox_name;
         private System.Windows.Forms.DataGridViewTextBoxColumn datagrid_master_id;
@@ -482,7 +538,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn mylunch;
         private System.Windows.Forms.DataGridViewTextBoxColumn date;
         private System.Windows.Forms.Button btn_lunch;
-        private System.Windows.Forms.TextBox txt_lunch;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.DataGridViewTextBoxColumn 日期;
@@ -490,6 +545,14 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn 便當;
         private System.Windows.Forms.DataGridViewTextBoxColumn 素食;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.DataGridView dataGridView3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.TextBox index_employeeid;
+        private System.Windows.Forms.TextBox index_lunchid;
     }
 }
 

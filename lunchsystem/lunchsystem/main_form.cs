@@ -33,8 +33,10 @@ namespace lunchsystem
         }
 
 
+
         private void Form1_Load(object sender, EventArgs e)
         {
+
 
             dateTimePicker1.Format = DateTimePickerFormat.Custom;
             dateTimePicker1.CustomFormat = "yyyy/MM/dd";
@@ -115,7 +117,7 @@ namespace lunchsystem
             var source = query.ToList();
             dataGridView1.DataSource = source;
 
-            string TSQL = 
+            string TSQL =
                     @"Select
 	                date,
 	                [1] as rice,
@@ -128,9 +130,22 @@ namespace lunchsystem
                 pivot (count(lunch_id) for lunch_id in ([1],[2],[3])) as T_pivot";
 
             var source2 = db.Database.SqlQuery<FoodNumberViewModel>(TSQL);
-
-
             dataGridView2.DataSource = source2.ToList();
+
+            string TSQL2forAmount =
+                @"Select
+                L.lunch as food,
+                count(B.lunch_id) as total_count ,
+                sum(L.price) as total_amount 
+                from [dbo].[2NF_訂單細表] as H 
+                Join [dbo].[3NF_午餐] as B on H.master_id = B.master_id 
+                and date between '2022-10-01' and '2022-10-31' 
+                Join [dbo].[3NF_午餐種類] as L on B.lunch_id = L.lunch_id  
+                group by lunch , price ";
+
+            var source3 = db.Database.SqlQuery<AmountViewModel>(TSQL2forAmount);
+            dataGridView3.DataSource = source3.ToList();
+
 
 
 
@@ -147,12 +162,13 @@ namespace lunchsystem
 
             int[] index_lunch = str_lunchid.Select(n => n - '0').ToArray();
 
+            form_head.date = dateTimePicker1.Value;
+            form_head.employee_id = comboBox_name.SelectedIndex + 1;
+            db.C2NF_訂單細表.Add(form_head);
 
             for (int i = 0; i < index_lunch.Length; i++)
             {
-                form_head.date = dateTimePicker1.Value;
-                form_head.employee_id = comboBox_name.SelectedIndex + 1;
-                db.C2NF_訂單細表.Add(form_head);
+
 
                 // EF 對應 masterid
                 form_body.master_id = form_head.master_id;
@@ -276,7 +292,7 @@ namespace lunchsystem
             //  實際應用還要透過 Convert.ToDateTime(_lunchtime); 來轉換，
             //  另外要這樣幹，也要透過一個 method 來統一存取才是 done!
 
-            txt_showdate.Text = dateTimePicker1?.Value.toTWDate();
+            txt_showdate.Text += dateTimePicker1?.Value.toTWDate();
             // DateTime.TWDate()
             // 擴充方法 Extension method
         }
@@ -388,5 +404,7 @@ namespace lunchsystem
 
 
         }
+
+
     }
 }

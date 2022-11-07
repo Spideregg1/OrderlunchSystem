@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+
 
 namespace lunchsystem
 {
@@ -25,11 +27,20 @@ namespace lunchsystem
         {
             dataGridView_menu.AutoGenerateColumns = false;
 
-
             dataGridView_menu.AutoResizeColumns();
 
-            dataGridView_menu.DataSource = db.C3NF_午餐種類.ToList();
+            var query = from il in db.C3NF_午餐種類
+                        select new LunchitemViewModel
+                        {
+                            lunch_id = il.lunch_id,
+                            lunch = il.lunch,
+                            price = (int)il.price,
+                            photo = il.photo
+                        };
 
+
+            var source = query.ToList();
+            dataGridView_menu.DataSource = source.ToList();
         }
 
 
@@ -79,7 +90,7 @@ namespace lunchsystem
 
         private void datagridview_change_color(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (e.RowIndex>-1)
+            if (e.RowIndex > -1)
             {
                 int color_changed_price = Convert.ToInt32(dataGridView_menu.Rows[e.RowIndex].Cells[price.Index].Value);
 
@@ -99,5 +110,6 @@ namespace lunchsystem
             }
         }
 
+       
     }
 }

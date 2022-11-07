@@ -34,8 +34,11 @@
             this.pick_lunch_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pick = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.lunch_list = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.餐點圖片 = new System.Windows.Forms.DataGridViewImageColumn();
             this.price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.picture_show = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_menu)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture_show)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridView_menu
@@ -45,13 +48,15 @@
             this.pick_lunch_id,
             this.pick,
             this.lunch_list,
+            this.餐點圖片,
             this.price});
             this.dataGridView_menu.Location = new System.Drawing.Point(180, 126);
             this.dataGridView_menu.Name = "dataGridView_menu";
             this.dataGridView_menu.RowTemplate.Height = 24;
-            this.dataGridView_menu.Size = new System.Drawing.Size(443, 140);
+            this.dataGridView_menu.Size = new System.Drawing.Size(543, 140);
             this.dataGridView_menu.TabIndex = 98;
             this.dataGridView_menu.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.datagridview_change_color);
+            
             // 
             // btn_add_lunch
             // 
@@ -80,6 +85,7 @@
             this.pick_lunch_id.DataPropertyName = "lunch_id";
             this.pick_lunch_id.HeaderText = "";
             this.pick_lunch_id.Name = "pick_lunch_id";
+            this.pick_lunch_id.Width = 122;
             // 
             // pick
             // 
@@ -95,17 +101,36 @@
             this.lunch_list.HeaderText = "餐點列表";
             this.lunch_list.Name = "lunch_list";
             // 
+            // 餐點圖片
+            // 
+            this.餐點圖片.DataPropertyName = "photo";
+            this.餐點圖片.HeaderText = "餐點圖片";
+            this.餐點圖片.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.餐點圖片.Name = "餐點圖片";
+            this.餐點圖片.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.餐點圖片.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.餐點圖片.Width = 78;
+            // 
             // price
             // 
             this.price.DataPropertyName = "price";
             this.price.HeaderText = "價格";
             this.price.Name = "price";
             // 
+            // picture_show
+            // 
+            this.picture_show.Location = new System.Drawing.Point(620, 324);
+            this.picture_show.Name = "picture_show";
+            this.picture_show.Size = new System.Drawing.Size(100, 50);
+            this.picture_show.TabIndex = 107;
+            this.picture_show.TabStop = false;
+            // 
             // Menu_form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(825, 450);
+            this.Controls.Add(this.picture_show);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btn_add_lunch);
             this.Controls.Add(this.dataGridView_menu);
@@ -113,6 +138,7 @@
             this.Text = "菜色選擇清單";
             this.Load += new System.EventHandler(this.Menu_form_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_menu)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture_show)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -126,6 +152,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn pick_lunch_id;
         private System.Windows.Forms.DataGridViewCheckBoxColumn pick;
         private System.Windows.Forms.DataGridViewTextBoxColumn lunch_list;
+        private System.Windows.Forms.DataGridViewImageColumn 餐點圖片;
         private System.Windows.Forms.DataGridViewTextBoxColumn price;
+        private System.Windows.Forms.PictureBox picture_show;
     }
 }

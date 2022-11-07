@@ -1,7 +1,13 @@
 ﻿using System;
+using System.Data;
 using System.Data.Entity;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
+using Image = System.Drawing.Image;
 
 namespace lunchsystem
 {
@@ -9,6 +15,7 @@ namespace lunchsystem
     {
         MylunchEntities1 db = new MylunchEntities1();//lunch db
         C3NF_午餐種類 lunchitemtable = new C3NF_午餐種類();
+        
         public lunchitem()
         {
             InitializeComponent();
@@ -36,11 +43,13 @@ namespace lunchsystem
 
 
         }
+
+       
         #region CRUD部分
 
 
 
-        
+
 
         private void btn_insert_Click(object sender, EventArgs e)
         {
@@ -56,8 +65,14 @@ namespace lunchsystem
             }
             else
             {
+                
+
+
                 lunchitemtable.lunch = txt_lunch_name.Text.Trim();
                 lunchitemtable.price = Convert.ToInt32(txt_price.Text.Trim());
+                lunchitemtable.photo = ConvertFiltoByte(pictureBox1.ImageLocation);
+
+                
                 if (lunchitemtable.lunch_id == 0)
                 {
                     db.C3NF_午餐種類.Add(lunchitemtable);
@@ -93,6 +108,7 @@ namespace lunchsystem
                 lunchitemtable.lunch_id = Convert.ToInt32(dataGridView1.CurrentRow.Cells[lunch_id.Index].Value);
                 lunchitemtable= db.C3NF_午餐種類.Where(x => x.lunch_id == lunchitemtable.lunch_id).FirstOrDefault();
                 txt_lunch_name.Text = lunchitemtable.lunch;
+                txt_price.Text = lunchitemtable.price.ToString();
             
         }
 
@@ -100,6 +116,7 @@ namespace lunchsystem
         {
             lunchitemtable.lunch = txt_lunch_name.Text;
             lunchitemtable.price = Convert.ToInt32(txt_price.Text);
+            lunchitemtable.photo = ConvertFiltoByte(pictureBox1.ImageLocation);
             if (lunchitemtable.lunch_id != 0)
             {
                 db.Entry(lunchitemtable).State = EntityState.Modified;
@@ -111,8 +128,32 @@ namespace lunchsystem
         }
 
 
+
         #endregion
 
+        //上傳圖片
+        private void btn_upload_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog odg = new OpenFileDialog();
+            
+                odg.Title = "打開圖片";
+                odg.Filter = "png files(*.png)|*.png";
+                if (odg.ShowDialog() == DialogResult.OK)
+                {
+                    Image image = Image.FromFile(odg.FileName);
+                    pictureBox1.ImageLocation = odg.FileName;
+                }
+        }
         
+        private byte[] ConvertFiltoByte(string sPath)
+        {
+            byte[] data = null;
+            FileInfo fInfo=new FileInfo(sPath);
+            long numBytes = fInfo.Length;
+            FileStream fStream = new FileStream(sPath, FileMode.Open, FileAccess.Read);
+            BinaryReader br = new BinaryReader(fStream);
+            data = br.ReadBytes((int)numBytes);
+            return data;
+        }
     }
 }
